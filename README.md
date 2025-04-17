@@ -6,7 +6,7 @@
 - So as a result I wrote some scripts to bypass that and streamline the process of switching from Multiboot to U-Boot to boot either Android or Maemo Leste.
 - If you have installed the CSSU prior to it being taken down you can use the files in this repo and the following guide https://talk.maemo.org/showthread.php?t=101338 but for all intents and purposes I will only be supporting the Multiboot method.
 - I have also provided some U-Boot configs besides the Multiboot ones, if you have CSSU installed or want to boot a broken Android for some reason.
-- Also I will/have uploaded some QoL apps I use to make using the device easier.
+- Also I have also uploaded some QoL apps I use to make using the device easier.
 
 Pre-requisites:
 Install rootsh from the .deb provided in the repo
@@ -63,7 +63,7 @@ d) Re-open XTerm and type the following commands:
 
 > cp -r /home/user/MyDocs/N900-UMBoot/boot/multiboot/multiboot.d /etc
 
-> cp -r /home/user/MyDocs/N900-UMBoot/boot/u-boot/bootmenu.d/50-*.item /etc/bootmenu.d
+> cp /home/user/MyDocs/N900-UMBoot/boot/u-boot/bootmenu.d/50-*.item /etc/bootmenu.d
 
 e) Now reboot and enjoy Android Gingerbread!
 
