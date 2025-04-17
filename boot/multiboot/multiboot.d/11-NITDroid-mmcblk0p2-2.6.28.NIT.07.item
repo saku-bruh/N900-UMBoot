@@ -1,0 +1,6 @@
+ITEM_NAME="Android Gingerbread (NITDroid)"
+ITEM_KERNEL=2.6.28.NIT.07
+ITEM_MODULES=ext3
+ITEM_DEVICE=${INT_CARD}p2
+ITEM_FSTYPE=ext3
+ITEM_FSOPTIONS=rw,noatime,errors=remount-ro

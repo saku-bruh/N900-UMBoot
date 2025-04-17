@@ -1,0 +1,110 @@
+#!/bin/sh
+
+INIT_FUNC=INIT
+JAIL_FUNC=JAIL
+DONE_FUNC=DONE
+
+
+INIT()
+{
+	# Mount maemo5 rootfs
+	/usr/sbin/ubiattach -m 5 /dev/ubi_ctrl
+	/system/bin/mount -t ubifs -o rw,bulk_read,no_chk_data_crc ubi0:rootfs ${MAEMO}
+	# Mount point for Android root
+	test -d ${MAEMO}${DROID} || mkdir ${MAEMO}${DROID}
+
+	# Link the systems together 
+	mount -o bind /tmp  ${MAEMO}/tmp
+	mount -o bind /     ${MAEMO}${DROID}
+}
+
+
+mknod_misc()
+{
+	local a b c
+
+	cat /proc/misc | grep -F "$2" | while read a b c
+	do
+		mknod $1 c 10 $a
+		return 0
+	done
+
+	return 1
+}
+
+
+JAIL()
+{
+	# Mount filesystems
+	mount -n -t proc  proc /proc 
+	mount -n -t sysfs none /sys
+	mount -n -t tmpfs -o size=256k,mode=0755,noatime tmpfs /dev
+	mount -n -t tmpfs -o size=256k,mode=0755,nosuid,noatime tmpfs /var/run
+
+	# DEVPTS
+	mkdir /dev/pts
+	mount -n -t devpts devpts /dev/pts -o rw,mode=0600
+
+	# DBUS
+	mkdir /var/run/dbus
+	
+	# Dev nodes
+	mknod /dev/mem  c 1 1
+	mknod /dev/null c 1 3
+	mknod /dev/zero c 1 5
+	mknod /dev/kmem c 1 2
+	mknod /dev/kmsg c 1 11
+
+	mknod /dev/console c 5 1
+	mknod /dev/ptmx c 5 2
+
+	mknod /dev/fb0 c 29 0
+	mknod /dev/fb1 c 29 1
+	mknod /dev/fb2 c 29 2
+
+	mknod /dev/mtd0 c 90 0
+	mknod /dev/mtd1 c 90 2
+	mknod /dev/mtd2 c 90 4
+	mknod /dev/mtd3 c 90 6
+	mknod /dev/mtd4 c 90 8
+	mknod /dev/mtd5 c 90 10
+
+	mknod /dev/i2c-1 c 89 1
+	mknod /dev/i2c-2 c 89 2
+	mknod /dev/i2c-3 c 89 3
+
+	mknod /dev/event0 c 13 64
+	mknod /dev/event1 c 13 65
+	mknod /dev/event2 c 13 66
+	mknod /dev/event3 c 13 67
+	
+	mknod /dev/video0 c 81 1
+	mknod /dev/video1 c 81 0
+
+	mknod_misc /dev/watchdog watchdog
+	mknod_misc /dev/twl4030_wdt twl4030_wdt
+	mknod_misc /dev/twl4030-adc twl4030-adc
+
+	ln -s /proc/self/fd   /dev/fd
+	ln -s /proc/self/fd/0 /dev/stdin
+	ln -s /proc/self/fd/1 /dev/stdout
+	ln -s /proc/self/fd/2 /dev/stderr
+
+	# Fake the saved state, so subsys is ok
+	echo "USER" > /var/lib/dsme/saved_state
+
+	echo USER > /tmp/USER
+	echo USER > /tmp/STATE
+}
+
+
+DONE()
+{
+	setprop init.svc.maemo-box.done 1
+
+	exit 0
+}
+
+
+source ${DROID}/system/maemo/etc/config.sh
+

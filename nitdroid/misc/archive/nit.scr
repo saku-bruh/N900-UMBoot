@@ -1,0 +1,4 @@
+setenv bootargs 'snd-soc-rx51.hp_lim=42 snd-soc-tlv320aic3x.hp_dac_lim=6 console=tty1 root=/dev/mmcblk1p2 rw rootdelay=10 init=/init panic=20 debug'
+setenv bootcmd 'mmc dev 0; fatload mmc 0:1 0x82000000 uImage; bootm 0x82000000'
+setenv atagaddr 0x80000100
+boot

@@ -1,0 +1,6 @@
+ITEM_NAME="Android Gingerbread (NITDroid, Unstable)"
+ITEM_CMDLINE="snd-soc-rx51.hp_lim=42 snd-soc-tlv320aic3x.hp_dac_lim=6 console=tty1 root=/dev/mmcblk0p2 rw rootwait init=/init panic=20"
+ITEM_DEVICE="${INT_CARD}p2"
+ITEM_KERNEL="uImage"
+ITEM_FSTYPE="ext3" 
+ITEM_OMAPATAG="1"

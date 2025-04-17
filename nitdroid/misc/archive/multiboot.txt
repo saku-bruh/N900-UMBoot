@@ -1,0 +1,10 @@
+root
+cd /home/user/MyDocs
+bzip2 -d N12_UMay.tar.bz2
+cd /home
+mkdir /and
+cd /
+mount /home /and
+cd /and
+tar xvf /home/user/MyDocs/N12_UMay.tar
+dpkg -i /home/user/MyDocs/nitdroid-installer_0.2.7_armel.deb

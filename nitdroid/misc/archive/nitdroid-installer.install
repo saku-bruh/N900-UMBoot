@@ -1,0 +1,8 @@
+[install]
+catalogues = extras-devel
+package   = nitdroid-installer
+
+[extras-devel]
+name = Extras-Devel
+uri = http://repository.maemo.org/extras-devel/
+components = free non-free

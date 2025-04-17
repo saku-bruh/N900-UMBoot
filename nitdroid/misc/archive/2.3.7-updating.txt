@@ -1,0 +1,4 @@
+root
+mount -t ext3 -o noatime,rw /dev/mmcblk1p2 /and
+cd /and
+tar xvf /home/user/MyDocs/N12_update_2.3.7.tar.bz2
